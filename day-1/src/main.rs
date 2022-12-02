@@ -27,7 +27,7 @@ fn load_elves() -> Vec<Elf> {
         }
     }
     elves.push(Elf::new(elf_count, tot_cals));
-    elves
+    return elves;
 }
 
 
