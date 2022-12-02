@@ -32,12 +32,12 @@ fn load_elves() -> Vec<Elf> {
 
 
 fn main() {
-    let mut _elves = load_elves();
-    _elves.sort_by_key(|x| x.calories);
+    let mut _elves: Vec<Elf> = load_elves();
+    _elves.sort_by_key(|x: &Elf| x.calories);
     _elves.reverse();
     //solution to part 1
     println!("Elf:{} | Carrying {} calories.",_elves[0].number, _elves[0].calories);
     //solution to part 2
-    let sum_top_3: i64 = _elves[..3].iter().map(|x| x.calories).sum();
+    let sum_top_3: i64 = _elves[..3].iter().map(|x: &Elf| x.calories).sum();
     println!("Top 3 elves are carrying {} calories.", sum_top_3);
 }
