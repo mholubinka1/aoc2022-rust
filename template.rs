@@ -1,4 +1,4 @@
-const TODAY_SAMPLE: &str = "
+const SAMPLE: &str = "
 ";
 
 fn load_input() -> String {

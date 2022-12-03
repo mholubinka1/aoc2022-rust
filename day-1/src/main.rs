@@ -1,16 +1,6 @@
-struct Elf {
-    number: i32,
-    calories: i32,
-}
+mod elf;
 
-impl Elf {
-    pub fn new(number: i32, calories: i32) -> Self {
-        Elf {
-            number,
-            calories
-        }
-    }
-}
+use elf::Elf;
 
 fn load_elves() -> Vec<Elf> {
     let input: String = std::fs::read_to_string("../input").unwrap();

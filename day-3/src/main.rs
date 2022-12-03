@@ -30,7 +30,8 @@ fn fill_rucksacks(input: String) -> Vec<Rucksack> {
         let compartment_two = &line[slice..];
         rucksacks.push(Rucksack::new(
             compartment_one.to_string(), 
-            compartment_two.to_string()));
+            compartment_two.to_string()
+        ));
     }
     rucksacks
 }
@@ -78,5 +79,6 @@ fn main() {
     let rucksacks = fill_rucksacks(input);
     let total = calculate_total(&rucksacks, &priorities); 
     let authenticity_total = calculate_authenticity_total(&rucksacks, &priorities);
-    println!("{}", authenticity_total);
+    println!("The priority total for all the individual common items is {}", total);
+    println!("The priority total for all the group common items is {}", authenticity_total);
 }

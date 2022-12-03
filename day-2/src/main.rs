@@ -6,10 +6,9 @@ use _move::Outcome;
 use helpers::circular_subtract;
 use std::str::FromStr;
 
-/*const TODAY_SAMPLE: &str = "A Y
+const SAMPLE: &str = "A Y
 B X
 C Z";
-*/
 
 fn load_input() -> String {
     let input: String = std::fs::read_to_string("input").unwrap();
