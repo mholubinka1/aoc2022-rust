@@ -4,7 +4,7 @@ use std::collections::HashSet;
 
 use rucksack::Rucksack;
 
-const TODAY_SAMPLE: &str = "vJrwpWtwJgWrhcsFMMfFFhFp
+const SAMPLE: &str = "vJrwpWtwJgWrhcsFMMfFFhFp
 jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
 PmmdzqPrVvPwwTWBwg
 wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
@@ -73,6 +73,7 @@ fn calculate_authenticity_total(rucksacks: &Vec<Rucksack>, priorities: &Vec<char
 }
 
 fn main() {
+    //let input = SAMPLE.to_string();
     let input = load_input();
     //println!("{}", input);
     let priorities = ALPHABET.chars().collect();
