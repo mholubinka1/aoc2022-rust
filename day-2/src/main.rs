@@ -13,7 +13,7 @@ C Z";
 
 fn load_input() -> String {
     let input: String = std::fs::read_to_string("input").unwrap();
-    return input;
+    input
 }
 
 fn create_strategy_guide(input: String) -> Vec<(Move, Move)> {
@@ -24,31 +24,31 @@ fn create_strategy_guide(input: String) -> Vec<(Move, Move)> {
         let v = Move::from_str(split[1]).unwrap();
         strategy_guide.push((k, v));
     }
-    return strategy_guide;
+    strategy_guide
 }
 
-fn determine_result_score(_move: &Move, opponent_move: &Move) -> i64 {
+fn determine_result_score(_move: &Move, opponent_move: &Move) -> i32 {
     let move_value = _move.move_value();
     let opponent_value = opponent_move.move_value();
     let result = circular_subtract(move_value, opponent_value);
-    let result_score: i64 = match result.signum() {
+    let result_score: i32 = match result.signum() {
         -1 => 0,
         0 => 3,
         1 => 6,
         _ => unreachable!(),
     };
-    return result_score;
+    result_score
 }
 
-fn calculate_first_score(strategy_guide: &Vec<(Move, Move)>) -> i64 {
-    let mut total_score: i64 = 0;
+fn calculate_first_score(strategy_guide: &Vec<(Move, Move)>) -> i32 {
+    let mut total_score: i32 = 0;
     for _tuple in strategy_guide {
         let your_move = &_tuple.1;
         let opponent_move = &_tuple.0;
         let move_score = your_move.move_value() + determine_result_score(&your_move, &opponent_move);
         total_score += move_score;
     }
-    return total_score;
+    total_score
 }
 
 fn determine_move_from_outcome(outcome: &Outcome, opponent_move: &Move) -> Move {
@@ -57,11 +57,11 @@ fn determine_move_from_outcome(outcome: &Outcome, opponent_move: &Move) -> Move 
         Outcome::Win =>  opponent_move.winning_move(),
         Outcome::Lose => opponent_move.losing_move(),
     };
-    return your_move;
+    your_move
 }
 
-fn calculate_second_score(strategy_guide: &Vec<(Move, Move)>) -> i64 {
-    let mut total_score: i64 = 0;
+fn calculate_second_score(strategy_guide: &Vec<(Move, Move)>) -> i32 {
+    let mut total_score: i32 = 0;
     for _tuple in strategy_guide {
         let outcome = &_tuple.1.translate_to_outcome();
         let opponent_move = &_tuple.0;
@@ -69,7 +69,7 @@ fn calculate_second_score(strategy_guide: &Vec<(Move, Move)>) -> i64 {
         let move_score = your_move.move_value() + determine_result_score(&your_move, &opponent_move);
         total_score += move_score;
     }
-    return total_score;
+    total_score
 }
 
 fn main() {

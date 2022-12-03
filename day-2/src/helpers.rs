@@ -1,4 +1,4 @@
-pub fn circular_subtract(x: i64, y: i64) -> i64 {
+pub fn circular_subtract(x: i32, y: i32) -> i32 {
     let mut result = x - y;
     if result == 2 {
         result = -1;
@@ -6,5 +6,5 @@ pub fn circular_subtract(x: i64, y: i64) -> i64 {
     if result == -2 {
         result = 1;
     }
-    return result;
+    result
 }
