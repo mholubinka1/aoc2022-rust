@@ -53,7 +53,7 @@ fn create_stacks_and_define_moves(input: String) -> (Vec<Stack>, Vec<Move>) {
         let mut stack_index = 0;    
         for index in (1..chars.len() - 1).step_by(4) {
             if !chars[index].is_whitespace() {
-                stacks[stack_index].insert_below(chars[index]);
+                stacks[stack_index].insert_at_bottom(chars[index]);
             }
             stack_index += 1;
         } 
