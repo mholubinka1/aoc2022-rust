@@ -15,7 +15,7 @@ impl Stack {
         }
     }
 
-    pub fn insert_below(&mut self, _crate: char) -> () {
+    pub fn insert_at_bottom(&mut self, _crate: char) -> () {
         let _ = &self.crates.insert(0, _crate);
     }
 
