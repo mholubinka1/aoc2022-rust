@@ -5,20 +5,18 @@ mod helpers;
 use helpers::str_strip_numbers;
 
 pub struct Stack {
-    number: i32,
     crates: Vec<char>
 }
 
 impl Stack {
-    pub fn new(number: i32) -> Self {
+    pub fn new() -> Self {
         Stack {
-            number: number,
             crates: Vec::<char>::new(),
         }
     }
 
     pub fn insert_below(&mut self, _crate: char) -> () {
-        &self.crates.insert(0, _crate);
+        let _ = &self.crates.insert(0, _crate);
     }
 
     pub fn top(&self) -> char {
@@ -89,7 +87,7 @@ pub trait CreateAllStacks {
 impl CreateAllStacks for Vec<Stack> {
     fn create_all_stacks(self: &mut Vec<Stack>, total_stacks: i32) -> () {
         for i in 0..total_stacks{
-            let _ = &self.push(Stack::new(i+1));
+            let _ = &self.push(Stack::new());
         };
     }
 }
