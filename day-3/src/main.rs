@@ -48,7 +48,7 @@ fn calculate_total(rucksacks: &Vec<Rucksack>, priorities: &Vec<char>) -> i32 {
 
 fn find_elf_group_common_item(elves: &[Rucksack]) -> char {
     let mut common_items = elves[0].all_items();
-    for i in [1, 2] {
+    for i in [1, elves.len() - 1] {
         let items = elves[i].all_items();
         common_items = common_items.intersection(&items).map(|x| *x).collect::<HashSet<_>>();
     }
