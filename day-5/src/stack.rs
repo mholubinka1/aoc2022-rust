@@ -22,6 +22,12 @@ impl Stack {
     pub fn top(&self) -> char {
         *self.crates.last().unwrap()
     }
+
+    pub fn remove_from_top(&mut self, number: usize) -> () {
+        for _ in 0..number {
+            let _ = self.crates.pop();
+        }
+    }
 }
 
 pub struct Move {
@@ -54,10 +60,10 @@ pub trait MoveCratesIndividually {
 
 impl MoveCratesIndividually for Vec<Stack> {
     fn move_crates_individually(&mut self, instruction: &Move) ->  () {
-        for _move_number in 0..instruction.number {
+        for _ in 0..instruction.number {
             let _crate = &self[instruction.from - 1].crates.last().unwrap().clone();
-            let _ = &self[instruction.from - 1].crates.pop();
             self[instruction.to - 1].crates.push(*_crate);
+            let _ = &self[instruction.from - 1].remove_from_top(1);
         }
     }   
 }
@@ -69,14 +75,12 @@ pub trait MoveCrates {
 impl MoveCrates for Vec<Stack> {
     fn move_crates(&mut self, instruction: &Move) ->  () {
         let mut start_index = self[instruction.from - 1].crates.len() - instruction.number;
-        for _move_number in 0..instruction.number {
+        for _ in 0..instruction.number {
             let _crate = &self[instruction.from - 1].crates[start_index].clone();
             let _ = &self[instruction.to - 1].crates.push(*_crate);
             start_index += 1;
         }
-        for _move_number in 0..instruction.number {
-            let _ = &self[instruction.from - 1].crates.pop();
-        }
+        let _ = &self[instruction.from - 1].remove_from_top(instruction.number);
     }   
 }
 
@@ -86,7 +90,7 @@ pub trait CreateAllStacks {
 
 impl CreateAllStacks for Vec<Stack> {
     fn create_all_stacks(self: &mut Vec<Stack>, total_stacks: i32) -> () {
-        for i in 0..total_stacks{
+        for _ in 0..total_stacks{
             let _ = &self.push(Stack::new());
         };
     }
