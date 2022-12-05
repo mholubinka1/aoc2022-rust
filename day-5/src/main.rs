@@ -20,8 +20,6 @@ fn load_input() -> String {
     std::fs::read_to_string("input").unwrap()
 }
 
-
-
 pub fn find_crates_in_line(s: &str) -> Vec<char> {
     lazy_static! {
         static ref FIND_CRATES: Regex = Regex::new(r"\[A-Z]").unwrap();
@@ -30,7 +28,6 @@ pub fn find_crates_in_line(s: &str) -> Vec<char> {
         .filter_map(|_crates| _crates.as_str().parse().ok())
         .collect()
 }
-
 
 fn create_stacks_and_define_moves(input: String) -> (Vec<Stack>, Vec<Move>) {
     let mut stacks = Vec::<Stack>::new();
@@ -64,8 +61,6 @@ fn create_stacks_and_define_moves(input: String) -> (Vec<Stack>, Vec<Move>) {
     (stacks, moves)
 }
 
-
-
 fn rearrange_stacks_one_at_a_time<'a>(stacks: &'a mut Vec<Stack>, moves: &'a Vec<Move>) -> &'a Vec<Stack> {
     for _move in moves {
         stacks.move_crates_individually(_move);
@@ -79,8 +74,6 @@ fn rearrange_stacks<'a>(stacks: &'a mut Vec<Stack>, moves: &'a Vec<Move>) -> &'a
     }
     stacks
 }
-
-
 
 fn main() {
     //let input = SAMPLE.to_string();
