@@ -13,19 +13,9 @@ fn has_dupe<T: PartialEq>(slice: &[T]) -> bool {
     false
 }
 
-fn find_first_marker(signal: &Vec<char>) -> usize {
-    for i in 4..signal.len() {
-        let snippet = &signal[i-4..i];
-        if !has_dupe(snippet) {
-            return i;
-        }
-    }
-    unreachable!();
-}
-
-fn find_start_of_message_marker(signal: &Vec<char>) -> usize {
-    for i in 14..signal.len() {
-        let snippet = &signal[i-14..i];
+fn find_marker(signal: &Vec<char>, num: usize) -> usize {
+    for i in num..signal.len() {
+        let snippet = &signal[i-num..i];
         if !has_dupe(snippet) {
             return i;
         }
@@ -37,8 +27,8 @@ fn main() {
     //let input = SAMPLE.to_string();
     let input = load_input();
     let signal: Vec<char> = input.chars().collect();
-    let marker_index = find_first_marker(&signal);
-    let start_index = find_start_of_message_marker(&signal);
+    let marker_index = find_marker(&signal, 4);
+    let start_index = find_marker(&signal, 14);
     println!("{}", input);
     println!("{}", marker_index);
     println!("{}", start_index);
