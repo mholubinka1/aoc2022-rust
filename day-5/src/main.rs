@@ -49,7 +49,7 @@ fn create_stacks_and_define_moves(input: String) -> (Vec<Stack>, Vec<Move>) {
     (stacks, moves)
 }
 
-fn create_new_stacks<T: Clone>(vec: &Vec<T>) -> Vec<T> {
+fn clone_stacks<T: Clone>(vec: &Vec<T>) -> Vec<T> {
     let newvec = vec.to_vec();
     newvec
 }
@@ -80,13 +80,18 @@ fn main() {
     //let input = SAMPLE.to_string();
     let input = load_input();
     let (stacks, moves) = create_stacks_and_define_moves(input);
-    let mut first = create_new_stacks(&stacks);
-    let mut second = create_new_stacks(&stacks);
-    let first_rearranged_stacks = rearrange_stacks_one_at_a_time(&mut first, &moves);
-    let second_rearranged_stacks = rearrange_stacks(&mut second, &moves);
     
-    display_crates_on_top(&first_rearranged_stacks);
-    display_crates_on_top(&second_rearranged_stacks);
+    let mut first = clone_stacks(&stacks);
+    let first_rearranged_stacks = rearrange_stacks_one_at_a_time(
+        &mut first, 
+        &moves);
 
+    display_crates_on_top(&first_rearranged_stacks);
     
+    let mut second = clone_stacks(&stacks);
+    let second_rearranged_stacks = rearrange_stacks(
+        &mut second, 
+        &moves);
+    
+    display_crates_on_top(&second_rearranged_stacks);
 }
