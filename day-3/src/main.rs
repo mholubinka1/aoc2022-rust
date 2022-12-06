@@ -1,15 +1,14 @@
-mod rucksack;
-
 use std::collections::HashSet;
 
+mod rucksack;
 use rucksack::Rucksack;
 
-const SAMPLE: &str = "vJrwpWtwJgWrhcsFMMfFFhFp
+/*const SAMPLE: &str = "vJrwpWtwJgWrhcsFMMfFFhFp
 jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
 PmmdzqPrVvPwwTWBwg
 wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
 ttgJtRGJQctTZtZT
-CrZsJsPPZsGzwwsLwLmpwMDw";
+CrZsJsPPZsGzwwsLwLmpwMDw";*/
 
 const ALPHABET: &str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

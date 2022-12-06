@@ -1,9 +1,10 @@
-use std::{str::FromStr, string::ParseError, collections::HashMap};
+use std::{str::FromStr, string::ParseError};
 
 mod helpers;
 
 use helpers::str_strip_numbers;
 
+#[derive(Clone)]
 pub struct Stack {
     crates: Vec<char>
 }

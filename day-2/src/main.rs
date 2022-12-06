@@ -1,14 +1,15 @@
-mod _move;
-mod helpers;
-
-use _move::Move;
-use _move::Outcome;
-use helpers::circular_subtract;
 use std::str::FromStr;
 
-const SAMPLE: &str = "A Y
+mod _move;
+use _move::{Move, Outcome};
+
+mod helpers;
+use helpers::circular_subtract;
+
+
+/*const SAMPLE: &str = "A Y
 B X
-C Z";
+C Z";*/
 
 fn load_input() -> String {
     let input: String = std::fs::read_to_string("input").unwrap();

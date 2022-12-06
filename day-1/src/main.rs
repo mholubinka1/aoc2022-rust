@@ -20,7 +20,6 @@ fn load_elves() -> Vec<Elf> {
     elves
 }
 
-
 fn main() {
     let mut _elves: Vec<Elf> = load_elves();
     _elves.sort_by_key(|x: &Elf| x.calories);

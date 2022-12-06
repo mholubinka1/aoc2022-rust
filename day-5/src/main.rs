@@ -1,12 +1,9 @@
-use lazy_static::lazy_static;
-use regex::Regex;
 use std::str::FromStr;
 
 mod stack;
-
 use stack::{Stack, Move, CreateAllStacks,  MoveCratesIndividually, MoveCrates};
 
-const SAMPLE: &str = "    [D]    
+/*const SAMPLE: &str = "    [D]    
 [N] [C]    
 [Z] [M] [P]
  1   2   3 
@@ -14,7 +11,7 @@ const SAMPLE: &str = "    [D]
 move 1 from 2 to 1
 move 3 from 1 to 3
 move 2 from 2 to 1
-move 1 from 1 to 2";
+move 1 from 1 to 2";*/
 
 fn load_input() -> String {
     std::fs::read_to_string("input").unwrap()
@@ -52,6 +49,11 @@ fn create_stacks_and_define_moves(input: String) -> (Vec<Stack>, Vec<Move>) {
     (stacks, moves)
 }
 
+fn create_new_stacks<T: Clone>(vec: &Vec<T>) -> Vec<T> {
+    let newvec = vec.to_vec();
+    newvec
+}
+
 fn rearrange_stacks_one_at_a_time<'a>(stacks: &'a mut Vec<Stack>, moves: &'a Vec<Move>) -> &'a Vec<Stack> {
     for _move in moves {
         stacks.move_crates_individually(_move);
@@ -59,23 +61,32 @@ fn rearrange_stacks_one_at_a_time<'a>(stacks: &'a mut Vec<Stack>, moves: &'a Vec
     stacks
 }
 
-fn rearrange_stacks<'a>(stacks: &'a mut Vec<Stack>, moves: &'a Vec<Move>) -> &'a Vec<Stack> {
+fn rearrange_stacks<'b>(stacks: &'b mut Vec<Stack>, moves: &'b Vec<Move>) -> &'b Vec<Stack> {
     for _move in moves {
         stacks.move_crates(_move);
     }
     stacks
 }
 
+fn display_crates_on_top(stacks: &Vec<Stack>) -> () {
+    let mut crates_at_top = Vec::<char>::new();
+    for stack in stacks {
+        crates_at_top.push(stack.top());
+    }
+    println!("{:?}", crates_at_top);
+}
+
 fn main() {
     //let input = SAMPLE.to_string();
     let input = load_input();
     let (stacks, moves) = create_stacks_and_define_moves(input);
-    let mut stacks_to_rearrange = stacks;
-    //let rearranged_stacks = rearrange_stacks_one_at_a_time(&mut stacks_to_rearrange, &moves);
-    let rearranged_stacks = rearrange_stacks(&mut stacks_to_rearrange, &moves);
-    let mut crates_at_top = Vec::<char>::new();
-    for stack in rearranged_stacks {
-        crates_at_top.push(stack.top());
-    }
-    println!("{:?}", crates_at_top);
+    let mut first = create_new_stacks(&stacks);
+    let mut second = create_new_stacks(&stacks);
+    let first_rearranged_stacks = rearrange_stacks_one_at_a_time(&mut first, &moves);
+    let second_rearranged_stacks = rearrange_stacks(&mut second, &moves);
+    
+    display_crates_on_top(&first_rearranged_stacks);
+    display_crates_on_top(&second_rearranged_stacks);
+
+    
 }
