@@ -34,7 +34,7 @@ fn load_input() -> String {
 enum Command<'a> {
     ChangeDirectory(&'a str),
     Directory(&'a str),
-    File((&'a str, u32)),
+    File((&'a str, i32)),
 }
 
 fn parse_command(input_line: &'_ str) -> Option<Command> {
@@ -46,17 +46,17 @@ fn parse_command(input_line: &'_ str) -> Option<Command> {
         Some(("dir", name)) => Some(Command::Directory(name)),
         Some((size, name)) => Some(Command::File((
             name,
-            size.parse::<u32>().unwrap(),
+            size.parse::<i32>().unwrap(),
         ))),
         _ => unreachable!(),
     }
 }
 
 
-fn create_directories(input: String) -> FileSystem<u32> {
+fn create_directories(input: String) -> FileSystem<i32> {
     let mut file_system = FileSystem { directories: vec![] };
     let mut directory_index: usize = 0;
-    file_system.insert(Directory::new(directory_index, "/", 0u32));
+    file_system.insert(Directory::new(directory_index, "/", 0i32));
 
     for line in input.lines() {
         let command = parse_command(line);
@@ -85,7 +85,7 @@ fn create_directories(input: String) -> FileSystem<u32> {
                 let mut directory = Directory::new(
                     new_directory_index,
                     dir,
-                    0u32
+                    0i32
                 );
                 directory.parent = Some(directory_index);
                 file_system.insert(directory);
@@ -108,7 +108,7 @@ fn main() {
     let result = root
         .directories.iter()
         .filter(|directory| directory.size <= directory_size_threshold)
-        .fold(0u32, |x, y| x + y.size);
+        .fold(0i32, |x, y| x + y.size);
     println!("{}", result);
 
     let file_system_size = 70000000;
