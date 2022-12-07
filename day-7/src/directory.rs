@@ -17,8 +17,7 @@ impl<T> Root<T> where T: Copy + PartialEq + AddAssign {
     pub fn child(&self, current_index: usize, target_name: &str) -> Option<usize> {
         self.directories[current_index]
             .children.iter()
-            .find(|child_index| self.directories[**child_index].name == target_name)
-            .copied()
+            .find(|child_index| self.directories[**child_index].name == target_name).copied()
     }
 
     pub fn add_file(&mut self, index: usize, file_size: T) {

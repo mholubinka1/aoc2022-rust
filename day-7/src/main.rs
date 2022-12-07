@@ -1,12 +1,8 @@
-
-
-
-
 mod directory;
 
 use directory::{Root, Directory};
 
-const SAMPLE: &str = "$ cd /
+/*const SAMPLE: &str = "$ cd /
 $ ls
 dir a
 14848514 b.txt
@@ -29,7 +25,7 @@ $ ls
 8033020 d.log
 5626152 d.ext
 7214296 k
-";
+";*/
 
 fn load_input() -> String {
     std::fs::read_to_string("input").unwrap()
@@ -124,8 +120,6 @@ fn main() {
         .filter(|directory| directory.size >= space_to_free)
         .collect::<Vec<_>>();
 
-    possible_directories.sort_by(|x, y| y.size.cmp(&x.size));
-
-    let result = possible_directories.pop().unwrap().size;
-    println!("{}", result);
+    possible_directories.sort_by_key(|x| x.size);
+    println!("{}", possible_directories[0].size);
 }
