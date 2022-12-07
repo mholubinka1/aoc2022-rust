@@ -1,11 +1,11 @@
 use std::ops::AddAssign;
 
 #[derive(Debug, Default)]
-pub struct Root<T> where T: PartialEq {
+pub struct FileSystem<T> where T: PartialEq {
     pub directories: Vec<Directory<T>>,
 }
 
-impl<T> Root<T> where T: Copy + PartialEq + AddAssign {
+impl<T> FileSystem<T> where T: Copy + PartialEq + AddAssign {
     pub fn insert(&mut self, directory: Directory<T>) {
         self.directories.push(directory);
     }

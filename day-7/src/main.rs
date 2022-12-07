@@ -1,6 +1,6 @@
 mod directory;
 
-use directory::{Root, Directory};
+use directory::{FileSystem, Directory};
 
 /*const SAMPLE: &str = "$ cd /
 $ ls
@@ -53,10 +53,10 @@ fn parse_command(input_line: &'_ str) -> Option<Command> {
 }
 
 
-fn create_directories(input: String) -> Root<u32> {
-    let mut root = Root { directories: vec![] };
+fn create_directories(input: String) -> FileSystem<u32> {
+    let mut file_system = FileSystem { directories: vec![] };
     let mut directory_index: usize = 0;
-    root.insert(Directory::new(directory_index, "/", 0u32));
+    file_system.insert(Directory::new(directory_index, "/", 0u32));
 
     for line in input.lines() {
         let command = parse_command(line);
@@ -64,7 +64,7 @@ fn create_directories(input: String) -> Root<u32> {
             Some(Command::ChangeDirectory(dir)) => match dir {
                 "/" => directory_index = 0,
                 ".." => {
-                    match root.parent(directory_index) {
+                    match file_system.parent(directory_index) {
                         Some(parent_index) => {
                             directory_index = parent_index;
                         }
@@ -72,7 +72,7 @@ fn create_directories(input: String) -> Root<u32> {
                     }
                 }
                 dir => {
-                    match root.child(directory_index, dir) {
+                    match file_system.child(directory_index, dir) {
                         Some(child_index) => {
                             directory_index = child_index;
                         }
@@ -81,23 +81,23 @@ fn create_directories(input: String) -> Root<u32> {
                 }
             },
             Some(Command::Directory(dir)) => {
-                let new_directory_index = root.directories.len();
+                let new_directory_index = file_system.directories.len();
                 let mut directory = Directory::new(
                     new_directory_index,
                     dir,
                     0u32
                 );
                 directory.parent = Some(directory_index);
-                root.insert(directory);
-                root.directories[directory_index].children.push(new_directory_index);
+                file_system.insert(directory);
+                file_system.directories[directory_index].children.push(new_directory_index);
             },
             Some(Command::File((_, file_size))) => {
-                root.add_file(directory_index, file_size)
+                file_system.add_file(directory_index, file_size)
             },
             None => {}
         }
     }
-    root
+    file_system
 }
 
 fn main() {
