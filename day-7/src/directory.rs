@@ -10,11 +10,11 @@ impl<T> FileSystem<T> where T: Copy + PartialEq + AddAssign {
         self.directories.push(directory);
     }
 
-    pub fn parent(&self, index: usize) -> Option<usize> {
+    pub fn get_parent(&self, index: usize) -> Option<usize> {
         self.directories[index].parent
     }
 
-    pub fn child(&self, current_index: usize, target_name: &str) -> Option<usize> {
+    pub fn get_child(&self, current_index: usize, target_name: &str) -> Option<usize> {
         self.directories[current_index]
             .children.iter()
             .find(|child_index| self.directories[**child_index].name == target_name).copied()
@@ -46,6 +46,10 @@ impl<T> Directory<T> where T: PartialEq {
             parent: None,
             children: vec![],
         }
+    }
+
+    pub fn index(&self) -> usize {
+        self.index
     }
 }
 

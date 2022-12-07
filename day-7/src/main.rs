@@ -64,7 +64,7 @@ fn create_directories(input: String) -> FileSystem<u32> {
             Some(Command::ChangeDirectory(dir)) => match dir {
                 "/" => directory_index = 0,
                 ".." => {
-                    match file_system.parent(directory_index) {
+                    match file_system.get_parent(directory_index) {
                         Some(parent_index) => {
                             directory_index = parent_index;
                         }
@@ -72,7 +72,7 @@ fn create_directories(input: String) -> FileSystem<u32> {
                     }
                 }
                 dir => {
-                    match file_system.child(directory_index, dir) {
+                    match file_system.get_child(directory_index, dir) {
                         Some(child_index) => {
                             directory_index = child_index;
                         }
@@ -109,6 +109,7 @@ fn main() {
         .directories.iter()
         .filter(|directory| directory.size <= directory_size_threshold)
         .fold(0u32, |x, y| x + y.size);
+    println!("{}", result);
 
     let file_system_size = 70000000;
     let required_space = 30000000;
@@ -121,5 +122,7 @@ fn main() {
         .collect::<Vec<_>>();
 
     possible_directories.sort_by_key(|x| x.size);
+    let index = &possible_directories[0].index();
+    println!("{}", index);
     println!("{}", possible_directories[0].size);
 }
