@@ -1,5 +1,9 @@
 use std::{iter::FromIterator};
 
+mod direction;
+
+use direction::{Direction, find_trees, DIRECTION};
+
 const SAMPLE: &str = "30373
 25512
 65332
@@ -28,44 +32,18 @@ fn is_visible(height: &u8, direction: Vec<&u8>) -> bool {
 }
 
 fn calculate_number_visible(tree_grid: &Vec<Vec<u8>>) -> u32 {
-    let mut number_visible = 0u32;
+    let mut number_visible = ((4 * tree_grid.len()) - 4) as u32;
     for r in 1..tree_grid[0].len() - 1 {
         for c in 1..tree_grid.len() - 1 {
-            let mut visible = true;
-
-            let west = tree_grid[r][0..c].iter().rev().collect::<Vec<_>>();
-            visible= is_visible(&tree_grid[r][c], west);
-
-            if visible {
-                number_visible += 1;
-                continue;
-            }
-
-            let east = tree_grid[r][c + 1..tree_grid[0].len()].iter().collect::<Vec<_>>();
-            visible = is_visible(&tree_grid[r][c], east);
-
-            if visible {
-                number_visible += 1;
-                continue;
-            }
-
-            let north = tree_grid[0..r].iter().map(|s| &s[c]).rev().collect::<Vec<_>>();
-            visible = is_visible(&tree_grid[r][c], north);
-            
-            if visible {
-                number_visible += 1;
-                continue;
-            }
-
-            let south = tree_grid[r + 1..tree_grid.len()].iter().map(|s| &s[c]).rev().collect::<Vec<_>>();
-            visible = is_visible(&tree_grid[r][c], south);
-
-            if visible {
-                number_visible += 1;
+            for direction in DIRECTION {
+                let trees = find_trees(tree_grid, r, c, direction);
+                if is_visible(&tree_grid[r][c], trees) {
+                    number_visible += 1;
+                    break;
+                }
             }
         }
     }
-    number_visible += ((4 * tree_grid.len()) - 4) as u32;
     number_visible
 }
 
@@ -81,32 +59,20 @@ fn viewing_distance(height: &u8, direction: Vec<&u8>) -> u32 {
 }
 
 fn calculate_scenic_score(tree_grid: &Vec<Vec<u8>>) -> u32  {
-    let mut scenic_score = 0u32;
+    let mut max_scenic_score = 0u32;
     for r in 1..tree_grid[0].len() - 1 {
         for c in 1..tree_grid.len() - 1 {
-            let mut viewing_distances = vec![];
-
-            let west = tree_grid[r][0..c].iter().rev().collect::<Vec<_>>();
-            viewing_distances.push(viewing_distance(&tree_grid[r][c], west));
-
-            let east = tree_grid[r][c + 1..tree_grid[0].len()].iter().collect::<Vec<_>>();
-            viewing_distances.push(viewing_distance(&tree_grid[r][c], east));
-
-
-            let north = tree_grid[0..r].iter().map(|s| &s[c]).rev().collect::<Vec<_>>();
-            viewing_distances.push(viewing_distance(&tree_grid[r][c], north));
-            
-
-            let south = tree_grid[r + 1..tree_grid.len()].iter().map(|s| &s[c]).rev().collect::<Vec<_>>();
-            viewing_distances.push(viewing_distance(&tree_grid[r][c], south));
-
-            let this_scenic_score = viewing_distances.iter().fold(1u32, |m, d| m * d);
-            if this_scenic_score > scenic_score {
-                scenic_score = this_scenic_score;
+            let mut scenic_score = 1u32;
+            for direction in DIRECTION {
+                let trees = find_trees(tree_grid, r, c, direction);
+                scenic_score = scenic_score * viewing_distance(&tree_grid[r][c], trees);
+            }
+            if scenic_score > max_scenic_score {
+                max_scenic_score = scenic_score;
             }
         }
     }
-    scenic_score
+    max_scenic_score
 }
 
 fn main() {
