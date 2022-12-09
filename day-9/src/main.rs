@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 mod rope;
 
-use rope::{Direction, Coordinate, Rope, move_rope};
+use rope::{Movement, Direction, Coordinate, Rope, move_rope_once};
 
 const SAMPLE: &str = "R 4
 U 4
@@ -17,17 +17,29 @@ fn load_input() -> String {
     std::fs::read_to_string("input").unwrap()
 }
 
-fn parse_movement(input_line: &str) -> Direction {
+fn parse_movement(input_line: &str) -> Movement {
     match input_line.split_once(' ') {
-        Some(("U", number)) => Direction::Up(number.parse::<u8>().unwrap()),
-        Some(("D", number)) => Direction::Down(number.parse::<u8>().unwrap()),
-        Some(("L", number)) => Direction::Left(number.parse::<u8>().unwrap()),
-        Some(("R", number)) => Direction::Right(number.parse::<u8>().unwrap()),
+        Some(("U", number)) => Movement::new(
+            Direction::Up,
+            number.parse::<u8>().unwrap()
+        ),
+        Some(("D", number)) => Movement::new(
+            Direction::Down,
+            number.parse::<u8>().unwrap()
+        ),
+        Some(("L", number)) => Movement::new(
+            Direction::Left,
+            number.parse::<u8>().unwrap()
+        ),
+        Some(("R", number)) => Movement::new(
+            Direction::Right,
+            number.parse::<u8>().unwrap()
+        ),
         _ => unreachable!(),
     }
 }
 
-fn create_movements(input: String) -> Vec<Direction> {
+fn create_movements(input: String) -> Vec<Movement> {
     let mut movements = vec![];
     for line in input.lines() {
         movements.push(parse_movement(line));
@@ -35,12 +47,14 @@ fn create_movements(input: String) -> Vec<Direction> {
     movements
 }
 
-fn apply_movements(movements: &Vec<Direction>) -> HashSet<Coordinate> {
+fn apply_movements(movements: &Vec<Movement>) -> HashSet<Coordinate> {
     let mut visited = HashSet::<Coordinate>::new();
     let mut rope = Rope::initialize();
     for movement in movements {
-        let _ = move_rope(rope, movement);
-        visited.insert(rope.tail());
+        for _ in 0..movement.steps {
+            rope = move_rope_once(rope, movement.direction);
+            visited.insert(rope.tail());
+        }
     }
     visited
 }
@@ -49,7 +63,6 @@ fn main() {
     //let input = SAMPLE.to_string();
     let input = load_input();
     let movements = create_movements(input);
-    let visited = apply_movements(movements);
-    println!("{}", SAMPLE);
-    println!("{}", input);
+    let visited = apply_movements(&movements);
+    println!("{}", visited.len());
 }

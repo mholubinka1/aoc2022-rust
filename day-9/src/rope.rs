@@ -1,16 +1,56 @@
+#[derive(Copy, Clone)]
 pub enum Direction {
-    Up(u8),
-    Down(u8),
-    Left(u8),
-    Right(u8), 
+    Up,
+    Down,
+    Left,
+    Right, 
+}
+
+pub struct Movement {
+    pub direction: Direction,
+    pub steps: u8,
+}
+
+impl Movement {
+    pub fn new(direction: Direction, steps: u8) -> Self {
+        Self {
+            direction,
+            steps,
+        }
+    }
 }
 
 #[derive(PartialEq, Eq, Hash, Copy, Clone)]
 pub struct Coordinate {
-    x: i8,
-    y: i8,
+    pub x: i32,
+    pub y: i32,
 }
 
+impl Coordinate {
+    pub fn is_next_to(self, other: Self) -> bool {
+        self.x.abs_diff(other.x) < 2 && self.y.abs_diff(other.y) < 2
+    }
+
+    pub fn move_once(self, direction: &Direction) -> Self {
+        match direction {
+            Direction::Up => Self { x: self.x, y: self.y + 1 },
+            Direction::Down => Self { x: self.x, y: self.y - 1 },
+            Direction::Left => Self { x: self.x - 1, y: self.y },
+            Direction::Right => Self { x: self.x + 1, y: self.y },
+        }
+    }
+
+    pub fn move_towards(self, other: Self) -> Self {
+        let x = self.x + (other.x - self.x).signum();
+        let y = self.y + (other.y - self.y).signum();
+        Self {
+            x,
+            y,
+        }
+    }
+}
+
+#[derive(PartialEq, Eq, Hash, Copy, Clone)]
 pub struct Rope {
     head: Coordinate,
     tail: Coordinate,
@@ -24,6 +64,13 @@ impl Rope {
         }
     }
 
+    pub fn new(head: Coordinate, tail: Coordinate) -> Self {
+        Self {
+            head,
+            tail,
+        }
+    }
+
     pub fn head(self) -> Coordinate {
         self.head
     }
@@ -33,17 +80,21 @@ impl Rope {
     }
 }
 
-pub fn move_rope_once(rope: Rope, steps: u8) -> Rope {
-
-}
-
-pub fn move_rope(rope: Rope, direction: &Direction) -> () {
-    match direction {
-        Direction::Up(steps) => {
-            
+pub fn move_rope_once(rope: Rope, direction: Direction) -> Rope {
+    let new_head = rope.head.move_once(&direction);
+    let new_tail = {
+        match rope.tail.is_next_to(new_head) {
+            true => rope.tail.clone(),
+            false => rope.tail.move_towards(rope.head),
         }
-        Direction::Down(steps) => return,
-        Direction::Left(steps) => return,
-        Direction::Right(steps) => return,
-    }
+    };
+    Rope::new(new_head, new_tail)
 }
+
+/*pub fn move_rope(rope: Rope, movement: &Movement) -> Rope {
+    let mut rope = rope.clone();
+    for _ in 0..movement.steps {
+        rope = move_rope_once(rope, movement.direction);
+    }
+    rope
+}*/
