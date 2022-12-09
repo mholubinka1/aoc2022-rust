@@ -58,13 +58,9 @@ pub struct Rope {
 
 impl Rope {
     pub fn initialize(len: usize) -> Self {
-        let mut parts = vec![];
-        for _ in 0..len {
-            parts.push(Coordinate { x: 0, y: 0 })
-        }
         Self {
             length: len,
-            parts
+            parts: vec![Coordinate { x: 0, y: 0}; len],
         }
     }
 
@@ -77,11 +73,11 @@ impl Rope {
     }
 }
 
-pub trait MoveRopeOnce {
+pub trait MoveOnce {
     fn move_rope_once(&mut self, direction: &Direction) -> ();
 }
 
-impl MoveRopeOnce for Rope {
+impl MoveOnce for Rope {
     fn move_rope_once(&mut self, direction: &Direction) -> () {
         let new_head = self.head().move_once(&direction);
         self.parts[0] = new_head;

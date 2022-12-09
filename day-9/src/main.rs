@@ -2,16 +2,16 @@ use std::collections::HashSet;
 
 mod rope;
 
-use rope::{Movement, Direction, Coordinate, Rope, MoveRopeOnce};
+use rope::{Movement, Direction, Coordinate, Rope, MoveOnce};
 
-const SAMPLE: &str = "R 4
+/*const SAMPLE: &str = "R 4
 U 4
 L 3
 D 1
-R 4
+R 
 D 1
 L 5
-R 2";
+R 2";*/
 
 fn load_input() -> String {
     std::fs::read_to_string("input").unwrap()
@@ -47,9 +47,9 @@ fn create_movements(input: String) -> Vec<Movement> {
     movements
 }
 
-fn apply_movements(movements: &Vec<Movement>) -> HashSet<Coordinate> {
+fn apply_movements(movements: &Vec<Movement>, rope_length: usize) -> HashSet<Coordinate> {
     let mut visited = HashSet::<Coordinate>::new();
-    let mut rope = Rope::initialize(10);
+    let mut rope = Rope::initialize(rope_length);
     for movement in movements {
         for _ in 0..movement.steps {
             rope.move_rope_once(&movement.direction);
@@ -63,6 +63,8 @@ fn main() {
     //let input = SAMPLE.to_string();
     let input = load_input();
     let movements = create_movements(input);
-    let visited = apply_movements(&movements);
+    let visited = apply_movements(&movements, 2);
+    let visited_long = apply_movements(&movements, 10);
     println!("{}", visited.len());
+    println!("{}", visited_long.len());
 }
