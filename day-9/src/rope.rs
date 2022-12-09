@@ -71,14 +71,8 @@ impl Rope {
     pub fn tail(&self) -> Coordinate {
         self.parts[self.length-1]
     }
-}
 
-pub trait MoveOnce {
-    fn move_rope_once(&mut self, direction: &Direction) -> ();
-}
-
-impl MoveOnce for Rope {
-    fn move_rope_once(&mut self, direction: &Direction) -> () {
+    pub fn move_once(&mut self, direction: &Direction) -> () {
         let new_head = self.head().move_once(&direction);
         self.parts[0] = new_head;
 

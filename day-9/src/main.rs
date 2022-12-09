@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 mod rope;
 
-use rope::{Movement, Direction, Coordinate, Rope, MoveOnce};
+use rope::{Movement, Direction, Coordinate, Rope};
 
 /*const SAMPLE: &str = "R 4
 U 4
@@ -52,7 +52,7 @@ fn apply_movements(movements: &Vec<Movement>, rope_length: usize) -> HashSet<Coo
     let mut rope = Rope::initialize(rope_length);
     for movement in movements {
         for _ in 0..movement.steps {
-            rope.move_rope_once(&movement.direction);
+            rope.move_once(&movement.direction);
             visited.insert(rope.tail());
         }
     }
