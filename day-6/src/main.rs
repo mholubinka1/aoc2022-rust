@@ -1,4 +1,4 @@
-const SAMPLE: &str = "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg";
+//const SAMPLE: &str = "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg";
 
 fn load_input() -> String {
     std::fs::read_to_string("input").unwrap()

@@ -2,13 +2,13 @@ use std::{iter::FromIterator};
 
 mod direction;
 
-use direction::{Direction, find_trees, DIRECTION};
+use direction::{find_trees, DIRECTION};
 
-const SAMPLE: &str = "30373
+/*const SAMPLE: &str = "30373
 25512
 65332
 33549
-35390";
+35390";*/
 
 fn load_input() -> String {
     std::fs::read_to_string("input").unwrap()

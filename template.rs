@@ -2,7 +2,7 @@ const SAMPLE: &str = "
 ";
 
 fn load_input() -> String {
-    std::fs::read_to_string("../input").unwrap()
+    std::fs::read_to_string("input").unwrap()
 }
 
 fn main() {
