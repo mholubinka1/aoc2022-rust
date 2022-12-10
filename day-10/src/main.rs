@@ -203,3 +203,12 @@ fn main() {
     println!("{}", total_signal_strength);
     println!("{}", crt);
 }
+
+/* 
+ooo  o  o ooo    oo ooo  ooo  o     oo  
+o  o o o  o  o    o o  o o  o o    o  o 
+o  o oo   o  o    o ooo  o  o o    o  o 
+ooo  o o  ooo     o o  o ooo  o    oooo 
+o o  o o  o    o  o o  o o    o    o  o 
+o  o o  o o     oo  ooo  o    oooo o  o 
+*/
