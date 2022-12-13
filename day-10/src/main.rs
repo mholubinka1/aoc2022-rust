@@ -1,4 +1,4 @@
-const SAMPLE: &str = "addx 15
+/*const SAMPLE: &str = "addx 15
 addx -11
 addx 6
 addx -3
@@ -143,7 +143,7 @@ addx -6
 addx -11
 noop
 noop
-noop";
+noop";*/
 
 fn load_input() -> String {
     std::fs::read_to_string("input").unwrap()
